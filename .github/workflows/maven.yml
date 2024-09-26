@@ -24,7 +24,7 @@ jobs:
     - name: Etapa de checkout do repositorio
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
