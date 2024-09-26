@@ -6,20 +6,58 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
-import java.util.Base64;
-
 public class SignUpPage extends BasePage {
 
     Hooks hooks = new Hooks();
 
 
+   /* public SignUpPage(WebDriver navegador) {
+        super(navegador);
+    } */
+
+
+    @FindBy (name = "name")
+    WebElement userNameField;
+
+    @FindBy (name = "email")
+    WebElement userEmailField;
+
+    @FindBy (name = "cpf")
+    WebElement userCpfField;
+
+    @FindBy (name = "cep")
+    WebElement userCepField;
+
+    @FindBy (name = "addressNumber")
+    WebElement userNumberField;
+
+    @FindBy (css = "input[type='button']")
+    WebElement searchCepBt;
+
+    @FindBy (xpath = "//img[@alt='Cuidar']")
+    WebElement imgActivity;
+
+    @FindBy (css = "input[type=file]")
+    WebElement uploadDoc;
+
+    @FindBy (className = "button-register")
+    WebElement signUpBt;
+
+
+    // Construtor da classe LoginPage
     public SignUpPage(WebDriver navegador) {
         super(navegador);
+        this.navegador = navegador;
+        // Inicializa os elementos da página
+        PageFactory.initElements(navegador, this);
     }
+
+
+
 
     public void verifyCadForm() {
         String titleElem = navegador.findElement(By.xpath("//*[text() = 'Faça seu cadastro']")).getText();
@@ -27,39 +65,42 @@ public class SignUpPage extends BasePage {
 
     }
 
-    public void insertDadosForm() {
-        WebElement nameInput = navegador.findElement(By.name("name"));
-        nameInput.sendKeys("William");
-
-        WebElement emailInput = navegador.findElement(By.name("email"));
-        emailInput.sendKeys("williamteste@gmail.com");
-
-        WebElement cpfInput = navegador.findElement(By.name("cpf"));
-        cpfInput.sendKeys("50954071085");
+    public void enterUsername(String username) {
+        userNameField.sendKeys(username);
     }
 
-    public void insertCEP() {
-        WebElement cepInput = navegador.findElement(By.name("cep"));
-        cepInput.sendKeys("04870470");
+    public void enterEmail(String email) {
+        userEmailField.sendKeys(email);
+    }
 
-        WebElement numberInput = navegador.findElement(By.name("addressNumber"));
-        numberInput.sendKeys("88");
+    public void enterCPF(String cpf) {
+        userCpfField.sendKeys(cpf);
+    }
 
-        navegador.findElement(By.cssSelector("input[type='button']")).click();
-        navegador.findElement(By.xpath("//img[@alt='Cuidar']")).click();
+    public void enterCEP(String cep) {
+        userCepField.sendKeys(cep);
+    }
 
+    public void enterNumber(String number) {
+        userNumberField.sendKeys(number);
+    }
 
+    public void btSearchCep() {
+        searchCepBt.click();
+    }
+
+    public void btActivity() {
+        imgActivity.click();
     }
 
     public void fileUpload() {
         File uploadFile = new File("/Users/williampez/Documents/Automacoes /selenium/FirstAutomation/src/test/java/br/william/pipeline/firstautomation/utils/IMG_0159.PNG");
-
-        WebElement fileInput = navegador.findElement(By.cssSelector("input[type=file]"));
-        fileInput.sendKeys(uploadFile.getAbsolutePath());
-
+        uploadDoc.sendKeys(uploadFile.getAbsolutePath());
     }
 
-    public void clickSignUp() {
-        navegador.findElement(By.className("button-register")).click();
+    public void btSignUp() {
+        signUpBt.click();
     }
+
+
 }
