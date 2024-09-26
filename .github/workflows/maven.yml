@@ -14,7 +14,9 @@ jobs:
     steps:
 
       - uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
+        with:
+         chrome-version: 120
+         install-chromedriver: true
 
       - name: Checkout do Repositório
         uses: actions/checkout@v4
