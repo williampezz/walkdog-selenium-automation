@@ -1,34 +1,36 @@
-name: Automacao WalkDog
+name: Run Selenium Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Etapa de checkout do repositorio
-        uses: actions/setup-java@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          java-version: '21'
           distribution: 'temurin'
-          cache: maven
-      - name: Setup ChromeDriver
+          java-version: '21'  # ou a versão do Java que você estiver usando
+
+      - name: Install Chrome
         run: |
-          CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
-          wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/bin/chromedriver
-          sudo chmod +x /usr/bin/chromedriver
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Executar testes
+      - name: Run tests with Maven
         run: mvn test
+        env:
+          # Variável de ambiente necessária para execução
+          DISPLAY: ':99.0'
+
+    # Você pode adicionar aqui mais etapas como relatório ou upload de artefatos, se necessário.
