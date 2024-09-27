@@ -6,6 +6,7 @@ import br.william.pipeline.firstautomation.pages.SignUpPage;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 @DisplayName("Tests automatizados da funcionalidade de SignUp")
 public class SignUpTests extends Hooks {
@@ -15,7 +16,12 @@ public class SignUpTests extends Hooks {
     @DisplayName("Registrar um novo usuario com dados validos")
     public void testSignUpUser() throws InterruptedException {
 
-        WebDriver navegador = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Executar o Chrome sem interface gráfica
+        options.addArguments("--no-sandbox"); // Necessário para evitar problemas de permissão
+        options.addArguments("--disable-dev-shm-usage"); // Para otimizar o uso de memória em ambientes limitados
+
+        WebDriver navegador = new ChromeDriver(options);
 
         HomePage homePage = new HomePage(navegador);
         SignUpPage signUpPage = new SignUpPage(navegador);
